@@ -3,12 +3,15 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" th:href="@{/style.css}"></link>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/styles.css}"></link>
     <title>Taco Cloud</title>
 </head>
 <body>
 <h1>Welcome to ...</h1>
-<img th:src="@{/images/TacoCloud.png}" alt="img"/>
+<a th:href="@{/design}" id="another">
+    <img th:src="@{/images/TacoCloud.png}" alt="img"/>
+    <br/>Design taco
+</a>
 </body>
 </html>
