@@ -18,7 +18,6 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 public class MappingTest {
 
