@@ -1,15 +1,15 @@
 package tacos;
 
+import com.google.common.collect.Iterables;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit4.SpringRunner;
 import tacos.data.IngredientRepository;
 import tacos.data.OrderRepository;
-import com.google.common.collect.Iterables;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -18,7 +18,6 @@ import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
-@ActiveProfiles("test")
 public class MappingTest {
 
     @Autowired
@@ -26,6 +25,15 @@ public class MappingTest {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    @Autowired
+    private TestEntityManager entityManager;
+
+    @Test
+    public void test() {
+        entityManager.persist(new Ingredient("1234", "qwerrty", Ingredient.Type.SAUCE));
+        Ingredient ingredient = entityManager.find(Ingredient.class, "1234");
+    }
 
     @Test
     public void testFindIngredients() {

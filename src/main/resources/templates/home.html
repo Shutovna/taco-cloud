@@ -13,5 +13,38 @@
     <img th:src="@{/images/TacoCloud.png}" alt="img"/>
     <br/>Design taco
 </a>
+
+<div id="orderTable">
+    <h3>Curent orders:</h3>
+    <table class="zui-table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>deliveryName</th>
+            <th>deliveryStreet</th>
+            <th>deliveryCity</th>
+            <th>deliveryState</th>
+            <th>deliveryZip</th>
+            <th>ccNumber</th>
+            <th>ccCVV</th>
+            <th>placedAt</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">id</td>
+            <td th:text="${order.deliveryName}">deliveryName</td>
+            <td th:text="${order.deliveryStreet}">deliveryStreet</td>
+            <td th:text="${order.deliveryCity}">deliveryCity</td>
+            <td th:text="${order.deliveryState}">deliveryState</td>
+            <td th:text="${order.deliveryZip}">deliveryZip</td>
+            <td th:text="${order.ccNumber}">ccNumber</td>
+            <td th:text="${order.ccCVV}">ccCVV</td>
+            <td th:text="${order.placedAt}">placedAt</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>
