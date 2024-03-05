@@ -3,23 +3,22 @@ package tacos;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.context.testng.AbstractTransactionalTestNGSpringContextTests;
 import tacos.data.IngredientRepository;
 import tacos.data.OrderRepository;
-
-import java.util.Date;
+import com.google.common.collect.Iterables;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 @RunWith(SpringRunner.class)
-@DataJdbcTest
+@DataJpaTest
+@AutoConfigureTestDatabase(replace= AutoConfigureTestDatabase.Replace.NONE)
 @ActiveProfiles("test")
 public class MappingTest {
 
@@ -28,6 +27,33 @@ public class MappingTest {
 
     @Autowired
     private IngredientRepository ingredientRepository;
+
+    @Test
+    public void testFindIngredients() {
+        Iterable<Ingredient> all = ingredientRepository.findAll();
+        assertEquals(10, Iterables.size(all));
+
+        Ingredient ingredient = all.iterator().next();
+        assertEquals("FLTO", ingredient.getId());
+        assertEquals("Flour Tortilla", ingredient.getName());
+        assertEquals(Ingredient.Type.WRAP, ingredient.getType());
+
+        Ingredient ingredient2 = ingredientRepository.findById("FLTO").orElseThrow();
+        assertEquals(ingredient,  ingredient2);
+    }
+    @Test
+    public void testCreateIngredient() {
+        Ingredient i = new Ingredient("QWER", "qwer", Ingredient.Type.PROTEIN);
+        ingredientRepository.save(i);
+
+        Ingredient dbIngredient = ingredientRepository.findById("QWER").orElseThrow();
+        assertEquals(i, dbIngredient);
+
+        i.setName("qwer2");
+        ingredientRepository.save(i);
+        dbIngredient = ingredientRepository.findById("QWER").orElseThrow();
+        assertEquals("qwer2", dbIngredient.getName());
+    }
 
     @Test
     public void testCreateOrder() {
@@ -41,18 +67,18 @@ public class MappingTest {
         order.setCcExpiration("12/12");
         order.setCcCVV("123");
 
-        Optional<Ingredient> ingredient = ingredientRepository.findById("FLTO");
-        Optional<Ingredient> ingredient2 = ingredientRepository.findById("GRBF");
-        Optional<Ingredient> ingredient3 = ingredientRepository.findById("CARN");
+        Ingredient ingredient = ingredientRepository.findById("FLTO").orElseThrow();
+        Ingredient ingredient2 = ingredientRepository.findById("GRBF").orElseThrow();
+        Ingredient ingredient3 = ingredientRepository.findById("CARN").orElseThrow();
 
         Taco taco = new Taco();
         taco.setName("tName");
-        taco.addIngredient(ingredient.orElseThrow());
+        taco.addIngredient(ingredient);
 
         Taco taco2 = new Taco();
         taco2.setName("tName2");
-        taco2.addIngredient(ingredient2.orElseThrow());
-        taco2.addIngredient(ingredient3.orElseThrow());
+        taco2.addIngredient(ingredient2);
+        taco2.addIngredient(ingredient3);
 
         order.addTaco(taco);
         order.addTaco(taco2);
