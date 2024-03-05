@@ -1,0 +1,14 @@
+drop table if exists ingredient cascade ;
+drop table if exists taco cascade ;
+drop table if exists taco_ingredients cascade ;
+drop table if exists taco_order cascade ;
+drop table if exists taco_order_tacos cascade ;
+drop sequence if exists taco_order_seq;
+drop sequence if exists taco_seq;
+drop table if exists ingredient cascade ;
+drop table if exists taco cascade ;
+drop table if exists taco_ingredients cascade ;
+drop table if exists taco_order cascade ;
+drop table if exists taco_order_tacos cascade ;
+drop sequence if exists taco_order_seq;
+drop sequence if exists taco_seq;
