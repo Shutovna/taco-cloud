@@ -42,6 +42,11 @@ class OrderControllerTest {
         MockHttpSession session = new MockHttpSession();
 
         TacoOrder tacoOrder = new TacoOrder();
+        tacoOrder.addTaco(new Taco(
+                1L, "name",
+                List.of(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.SAUCE)),
+                new Date())
+        );
         session.setAttribute("tacoOrder", tacoOrder);
 
         MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/orders/current")
