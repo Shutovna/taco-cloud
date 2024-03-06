@@ -23,4 +23,7 @@ SELECT id,
        '123',
        NOW() - '1 day'::INTERVAL * (RANDOM()::int * 100 + 100)
 FROM generate_series(1, 100) id;
+
+ALTER SEQUENCE taco_order_seq RESTART WITH 105;
+
 */
