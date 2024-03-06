@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -45,6 +46,12 @@ public class HomeControllerTest {
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryStreet())))
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryCity())))
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryState())))
+                .andExpect(content().string(containsString(tacoOrder.getDeliveryZip())))
+                .andExpect(content().string(containsString(tacoOrder.getCcNumber())))
+                .andExpect(content().string(containsString(tacoOrder.getCcExpiration())))
+                .andExpect(content().string(containsString(tacoOrder.getCcCVV())))
+                .andExpect(content().string(containsString(tacoOrder.getPlacedAt().toString())))
+                .andExpect(content().string(not(tacoOrder.getPlacedAt().toString())))
         ;
     }
 }
