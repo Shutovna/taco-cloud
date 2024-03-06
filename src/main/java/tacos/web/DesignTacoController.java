@@ -11,7 +11,6 @@ import tacos.Ingredient;
 import tacos.Taco;
 import tacos.TacoOrder;
 import tacos.data.IngredientRepository;
-import tacos.data.UserRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +23,8 @@ import static tacos.Ingredient.Type;
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
-    private final IngredientRepository ingredientRepo;
-
     @Autowired
-    private UserRepository userRepository;
-
-    public DesignTacoController(IngredientRepository ingredientRepo) {
-        this.ingredientRepo = ingredientRepo;
-    }
+    private IngredientRepository ingredientRepo;
 
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
@@ -66,7 +59,6 @@ public class DesignTacoController {
         }
         tacoOrder.addTaco(taco);
         log.info("Processing taco{}", taco);
-        userRepository.saveUser();
         return "redirect:/orders/current";
     }
 
