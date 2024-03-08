@@ -3,6 +3,7 @@ package tacos.web;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import tacos.TacoOrder;
 import tacos.data.IngredientRepository;
@@ -30,6 +31,7 @@ public class HomeControllerTest {
     private IngredientRepository ingredientRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testHomePage() throws Exception {
         TacoOrder tacoOrder = new TacoOrder(
                 1L, "name1", "street1", "city1",

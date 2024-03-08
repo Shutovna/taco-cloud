@@ -36,12 +36,12 @@ public class TacoOrder {
     @NotBlank(message="Zip code is required")
     private String deliveryZip;
     @CreditCardNumber(message="Not a valid credit card number")
-    private String ccNumber;
+    private String ccNumber = "378282246310005";
     @Pattern(regexp="^(0[1-9]|1[0-2])([\\/])([1-9][0-9])$",
             message="Must be formatted MM/YY")
-    private String ccExpiration;
+    private String ccExpiration="12/12";
     @Digits(integer=3, fraction=0, message="Invalid CVV")
-    private String ccCVV;
+    private String ccCVV="123";
     private Date placedAt = new Date();
 
     @OneToMany(cascade = CascadeType.ALL)

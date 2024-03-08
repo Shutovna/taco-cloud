@@ -2,11 +2,13 @@ package tacos.web;
 
 import io.florianlopes.spring.test.web.servlet.request.MockMvcRequestBuilderUtils;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -22,6 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(OrderController.class)
@@ -34,7 +37,10 @@ class OrderControllerTest {
     private IngredientRepository ingredientRepository;
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testGetOrderForm() throws Exception {
+        Mockito.when(this.orderRepository.findAll()).thenReturn(List.of());
+
         MockHttpSession session = new MockHttpSession();
 
         TacoOrder tacoOrder = new TacoOrder();
@@ -54,13 +60,14 @@ class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testFailCreateOrder() throws Exception {
         MockHttpSession session = new MockHttpSession();
 
         TacoOrder tacoOrder = new TacoOrder();
         session.setAttribute("tacoOrder", tacoOrder);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/orders").session(session))
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/orders").session(session).with(csrf()))
                 .andExpect(view().name("orderForm"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Please correct the problems below and resubmit")));
@@ -68,6 +75,7 @@ class OrderControllerTest {
     }
 
     @Test
+    @WithMockUser(roles = "USER")
     public void testCreateOrder() throws Exception {
         MockHttpSession session = new MockHttpSession();
 
@@ -87,7 +95,7 @@ class OrderControllerTest {
         tacoOrder.setCcCVV("123");
         MockMvcRequestBuilderUtils.registerPropertyEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
 
-        mockMvc.perform(MockMvcRequestBuilderUtils.postForm("/orders", tacoOrder).session(session))
+        mockMvc.perform(MockMvcRequestBuilderUtils.postForm("/orders", tacoOrder).session(session).with(csrf()))
                 .andExpect(view().name("redirect:/"))
                 .andExpect(status().is3xxRedirection());
 

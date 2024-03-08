@@ -5,12 +5,8 @@ import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Sort;
 import tacos.data.IngredientRepository;
 import tacos.data.OrderRepository;
-
-import javax.sql.DataSource;
 import java.util.Iterator;
 import java.util.List;
 
@@ -27,16 +23,15 @@ public class MappingTest {
     private IngredientRepository ingredientRepository;
 
     @Autowired
-    private DataSource dataSource;
-
-    @Autowired
     private EntityManager entityManager;
 
 
     @Test
     public void test() {
-        entityManager.persist(new Ingredient("1234", "qwerrty", Ingredient.Type.SAUCE));
-        Ingredient ingredient = entityManager.find(Ingredient.class, "1234");
+        Ingredient ingredient = new Ingredient("1234", "qwerrty", Ingredient.Type.SAUCE);
+        entityManager.persist(ingredient);
+        Ingredient ingredient2 = entityManager.find(Ingredient.class, "1234");
+        assertEquals(ingredient, ingredient2);
     }
 
     @Test
