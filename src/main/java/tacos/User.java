@@ -1,9 +1,6 @@
 package tacos;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity(name="users")
+@Table(name = "users")
 @Data
 @NoArgsConstructor
 public class User implements UserDetails {

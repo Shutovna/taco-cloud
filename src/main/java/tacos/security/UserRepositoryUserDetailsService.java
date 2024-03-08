@@ -2,24 +2,21 @@ package tacos.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
 import tacos.User;
 import tacos.data.UserRepository;
 
 @Service
-public class UserRepositoryUserDetailsService implements UserDetailsService {
-
-    private final UserRepository userRepo;
-
+public class UserRepositoryUserDetailsService implements UserDetailsManager {
     @Autowired
-    public UserRepositoryUserDetailsService(UserRepository userRepo) {
-        this.userRepo = userRepo;
-    }
+    private UserRepository userRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepo.findByUsername(username);
+        UserDetails user = userRepository.findByUsername(username);
         if (user != null) {
             return user;
         }
@@ -27,4 +24,34 @@ public class UserRepositoryUserDetailsService implements UserDetailsService {
                 "User '" + username + "' not found");
     }
 
+    @Override
+    public void createUser(UserDetails user) {
+        userRepository.save((User)user);
+    }
+
+    @Override
+    public void updateUser(UserDetails user) {
+        userRepository.save((User)user);
+    }
+
+    @Override
+    public void deleteUser(String username) {
+        UserDetails user = loadUserByUsername(username);
+        userRepository.delete((User)user);
+    }
+
+    @Override
+    public void changePassword(String oldPassword, String newPassword) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    @Override
+    public boolean userExists(String username) {
+        try {
+            loadUserByUsername(username);
+            return true;
+        } catch (UsernameNotFoundException e) {
+            return false;
+        }
+    }
 }
