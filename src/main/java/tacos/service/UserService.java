@@ -1,16 +1,15 @@
-package tacos.security;
+package tacos.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import tacos.User;
+import tacos.entity.User;
 import tacos.data.UserRepository;
 
 @Service
-public class UserRepositoryUserDetailsService implements UserDetailsManager {
+public class UserService implements UserDetailsManager     {
     @Autowired
     private UserRepository userRepository;
 

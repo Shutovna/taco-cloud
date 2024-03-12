@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import tacos.data.IngredientRepository;
 import tacos.data.OrderRepository;
+import tacos.entity.Ingredient;
+import tacos.entity.Taco;
+import tacos.entity.TacoOrder;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -24,7 +28,6 @@ public class MappingTest {
 
     @Autowired
     private EntityManager entityManager;
-
 
     @Test
     public void test() {

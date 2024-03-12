@@ -1,4 +1,4 @@
-package tacos;
+package tacos.entity;
 
 
 import jakarta.persistence.*;
@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import java.util.ArrayList;

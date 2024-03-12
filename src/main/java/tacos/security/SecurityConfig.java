@@ -4,16 +4,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.security.web.DefaultSecurityFilterChain;
 import org.springframework.security.web.SecurityFilterChain;
+import tacos.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -26,7 +24,7 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsManager userDetailsService() {
-        return new UserRepositoryUserDetailsService();
+        return new UserService();
     }
 
     @Bean
@@ -40,15 +38,15 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-    http.csrf(Customizer.withDefaults())
+        http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         (requests) -> requests
                                 .requestMatchers("/design", "/orders").hasRole("USER")
                                 .requestMatchers("/admin").hasRole("ADMIN")
-                                .requestMatchers("/ignore1", "/ignore2").permitAll()
                                 .requestMatchers("/", "/**").permitAll()
                 )
                 .formLogin(login -> login.loginPage("/login"))
+                .logout(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider());
         DefaultSecurityFilterChain filterChain = http.build();
         System.out.println("filterChain = " + filterChain);

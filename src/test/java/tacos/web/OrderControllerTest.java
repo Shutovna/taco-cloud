@@ -12,13 +12,12 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import tacos.Ingredient;
-import tacos.Taco;
-import tacos.TacoOrder;
+import tacos.entity.Ingredient;
+import tacos.entity.Taco;
+import tacos.entity.TacoOrder;
 import tacos.data.IngredientRepository;
 import tacos.data.OrderRepository;
 
-import java.beans.PropertyEditorSupport;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
