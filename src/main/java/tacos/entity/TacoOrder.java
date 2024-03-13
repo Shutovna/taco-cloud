@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import java.util.ArrayList;
@@ -17,8 +18,7 @@ import java.util.List;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 public class TacoOrder {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -45,6 +45,9 @@ public class TacoOrder {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<Taco> tacos = new ArrayList<>();
+
+    @ManyToOne
+    private User user;
 
     public void addTaco(Taco taco) {
         tacos.add(taco);

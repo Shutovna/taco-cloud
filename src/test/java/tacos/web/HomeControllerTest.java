@@ -32,11 +32,17 @@ public class HomeControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void testHomePage() throws Exception {
-        TacoOrder tacoOrder = new TacoOrder(
-                1L, "name1", "street1", "city1",
-                "state1", "zip1", "378282246310005",
-                "12/12", "123", new Date(), new ArrayList<>()
-        );
+        TacoOrder tacoOrder = new TacoOrder();
+        tacoOrder.setId(1L);
+        tacoOrder.setDeliveryName("name1");
+        tacoOrder.setDeliveryStreet("street1");
+        tacoOrder.setDeliveryCity("city1");
+        tacoOrder.setDeliveryState("state1");
+        tacoOrder.setDeliveryZip("zip1");
+        tacoOrder.setCcNumber("378282246310005");
+        tacoOrder.setCcExpiration("12/12");
+        tacoOrder.setCcCVV("123");
+
         when(orderRepository.findAll()).thenReturn(List.of(tacoOrder));
 
         mockMvc.perform(get("/"))

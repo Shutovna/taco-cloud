@@ -101,6 +101,17 @@ public class DesignTacoControllerTest {
   }
 
   @Test
+  public void testFailWithNoUser() throws Exception {
+    when(designRepository.save(design))
+            .thenReturn(design);
+
+    mockMvc.perform(post("/design").with(csrf())
+                    .content("name=Test+Taco&ingredients=FLTO,GRBF,CHED")
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+            .andExpect(status().isUnauthorized());
+  }
+
+  @Test
   @WithMockUser(username="testuser", password="testpass", authorities="ROLE_USER")
   public void processTaco() throws Exception {
     when(designRepository.save(design))

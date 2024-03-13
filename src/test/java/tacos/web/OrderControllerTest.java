@@ -44,10 +44,11 @@ class OrderControllerTest {
         MockHttpSession session = new MockHttpSession();
 
         TacoOrder tacoOrder = new TacoOrder();
-        tacoOrder.addTaco(new Taco(
+        Taco taco = new Taco(
                 1L, "name",
                 List.of(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.SAUCE)),
-                new Date())
+                new Date());
+        tacoOrder.addTaco(taco
         );
         session.setAttribute("tacoOrder", tacoOrder);
 
@@ -70,6 +71,17 @@ class OrderControllerTest {
                 .andExpect(view().name("orderForm"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Please correct the problems below and resubmit")));
+
+    }
+    @Test
+    public void testFailCreateOrderWithNoUser() throws Exception {
+        MockHttpSession session = new MockHttpSession();
+
+        TacoOrder tacoOrder = new TacoOrder();
+        session.setAttribute("tacoOrder", tacoOrder);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/orders").session(session).with(csrf()))
+                .andExpect(status().isUnauthorized());
 
     }
 
