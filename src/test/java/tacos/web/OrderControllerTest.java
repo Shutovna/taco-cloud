@@ -23,6 +23,7 @@ import java.util.Date;
 import java.util.List;
 
 import static org.hamcrest.Matchers.containsString;
+import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +39,7 @@ class OrderControllerTest {
     @Test
     @WithMockUser(roles = "USER")
     public void testGetOrderForm() throws Exception {
-        Mockito.when(this.orderRepository.findAll()).thenReturn(List.of());
+        when(this.orderRepository.findAll()).thenReturn(List.of());
 
         MockHttpSession session = new MockHttpSession();
 
@@ -50,9 +51,8 @@ class OrderControllerTest {
         );
         session.setAttribute("tacoOrder", tacoOrder);
 
-        MockHttpServletRequestBuilder builder = MockMvcRequestBuilders.get("/orders/current")
-                .session(session);
-        this.mockMvc.perform(builder)
+
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/orders/current").session(session))
                 .andExpect(view().name("orderForm"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(containsString("Deliver my taco masterpieces to...")));
@@ -79,9 +79,6 @@ class OrderControllerTest {
         MockHttpSession session = new MockHttpSession();
 
         TacoOrder tacoOrder = new TacoOrder();
-        tacoOrder.addTaco(new Taco(1L, "name",
-                List.of(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.SAUCE)),
-                new Date()));
         session.setAttribute("tacoOrder", tacoOrder);
 
         tacoOrder.setDeliveryName("dName");
@@ -92,12 +89,17 @@ class OrderControllerTest {
         tacoOrder.setCcNumber("378282246310005");
         tacoOrder.setCcExpiration("12/12");
         tacoOrder.setCcCVV("123");
+        tacoOrder.addTaco(new Taco(1L, "name",
+                List.of(new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.SAUCE)),
+                new Date()));
+
         MockMvcRequestBuilderUtils.registerPropertyEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("MM/dd/yyyy"), true));
+
+        when(orderRepository.save(tacoOrder)).thenReturn(tacoOrder);
 
         mockMvc.perform(MockMvcRequestBuilderUtils.postForm("/orders", tacoOrder).session(session).with(csrf()))
                 .andExpect(view().name("redirect:/"))
                 .andExpect(status().is3xxRedirection());
-
 
     }
 }

@@ -28,7 +28,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus, HttpServletRequest request) {
+    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
@@ -36,7 +36,7 @@ public class OrderController {
         log.info("Order submitted: " + order);
         orderRepository.save(order);
 
-        sessionStatus.setComplete();
+        sessionStatus.setComplete() ;
 
         return "redirect:/";
     }

@@ -1,4 +1,4 @@
-package tacos.web;
+package tacos.web.browser;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;

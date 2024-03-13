@@ -52,7 +52,6 @@ public class HomeControllerTest {
                 .andExpect(content().string(containsString(tacoOrder.getCcExpiration())))
                 .andExpect(content().string(containsString(tacoOrder.getCcCVV())))
                 .andExpect(content().string(containsString(tacoOrder.getPlacedAt().toString())))
-                .andExpect(content().string(not(tacoOrder.getPlacedAt().toString())))
         ;
     }
 }
