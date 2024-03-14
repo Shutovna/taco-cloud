@@ -35,6 +35,8 @@ class OrderControllerTest {
     private OrderRepository orderRepository;
     @MockBean
     private IngredientRepository ingredientRepository;
+    @MockBean
+    private OrderProps orderProps;
 
     @Test
     @WithMockUser(roles = "USER")

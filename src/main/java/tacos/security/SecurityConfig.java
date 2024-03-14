@@ -32,25 +32,23 @@ public class SecurityConfig {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService());
         authProvider.setPasswordEncoder(passwordEncoder());
-
         return authProvider;
     }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(Customizer.withDefaults())
+        http.csrf().disable()
+        //http.csrf(Customizer.withDefaults())
                 .authorizeHttpRequests(
                         (requests) -> requests
-                                .requestMatchers("/design", "/orders").hasRole("USER")
+                                .requestMatchers("/design/**", "/orders/**").hasRole("USER")
                                 .requestMatchers("/admin").hasRole("ADMIN")
                                 .requestMatchers("/", "/**").permitAll()
                 )
                 .formLogin(login -> login.loginPage("/login"))
                 .logout(Customizer.withDefaults())
                 .authenticationProvider(authenticationProvider());
-        DefaultSecurityFilterChain filterChain = http.build();
-        System.out.println("filterChain = " + filterChain);
-        return filterChain;
+        return http.build();
     }
 
 }

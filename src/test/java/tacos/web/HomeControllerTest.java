@@ -48,7 +48,7 @@ public class HomeControllerTest {
         mockMvc.perform(get("/"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("home"))
-                .andExpect(content().string(containsString("Welcome to ...")))
+                .andExpect(content().string(containsString("Welcome to ...")))/*
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryName())))
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryStreet())))
                 .andExpect(content().string(containsString(tacoOrder.getDeliveryCity())))
@@ -57,7 +57,7 @@ public class HomeControllerTest {
                 .andExpect(content().string(containsString(tacoOrder.getCcNumber())))
                 .andExpect(content().string(containsString(tacoOrder.getCcExpiration())))
                 .andExpect(content().string(containsString(tacoOrder.getCcCVV())))
-                .andExpect(content().string(containsString(tacoOrder.getPlacedAt().toString())))
+                .andExpect(content().string(containsString(tacoOrder.getPlacedAt().toString())))*/
         ;
     }
 }

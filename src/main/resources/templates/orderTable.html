@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" th:href="@{/styles.css}"></link>
+    <title>Taco Cloud</title>
+</head>
+<body>
+<h1 th:text="${message}">[...]</h1>
+<div id="orderTable">
+    <table class="zui-table">
+        <thead>
+        <tr>
+            <th>id</th>
+            <th>deliveryName</th>
+            <th>deliveryStreet</th>
+            <th>deliveryCity</th>
+            <th>deliveryState</th>
+            <th>deliveryZip</th>
+            <th>ccNumber</th>
+            <th>ccExpiration</th>
+            <th>ccCVV</th>
+            <th>placedAt</th>
+            <th>tacos</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${orders}">
+            <td th:text="${order.id}">id</td>
+            <td th:text="${order.deliveryName}">deliveryName</td>
+            <td th:text="${order.deliveryStreet}">deliveryStreet</td>
+            <td th:text="${order.deliveryCity}">deliveryCity</td>
+            <td th:text="${order.deliveryState}">deliveryState</td>
+            <td th:text="${order.deliveryZip}">deliveryZip</td>
+            <td th:text="${order.ccNumber}">ccNumber</td>
+            <td th:text="${order.ccExpiration}">ccExpiration</td>
+            <td th:text="${order.ccCVV}">ccCVV</td>
+            <td th:text="${order.placedAt}">placedAt</td>
+            <td th:text="${order.tacos.size}">tacos</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
