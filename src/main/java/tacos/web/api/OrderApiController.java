@@ -9,6 +9,7 @@ import tacos.data.OrderRepository;
 import tacos.entity.Taco;
 import tacos.entity.TacoOrder;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -18,7 +19,7 @@ public class OrderApiController {
     OrderRepository orderRepository;
 
     @GetMapping(produces = "application/json")
-    public Iterable<TacoOrder> allOrders() {
+    public List<TacoOrder> allOrders() {
         return orderRepository.findAll();
     }
 
